@@ -35,3 +35,20 @@ export async function requestCreateFBA(sampleId){
     )
 }
 
+export async function requestUpdateFBA(sampleId, change){
+    return makePutRequest(
+        `/api/v1/fba/update/${sampleId}/`,
+        {
+            l_capital: change.lCapital,
+            l_lowercase: change.lLowerCase,
+            m_capital: change.mCapital,
+            m_lowercase: change.mLowerCase,
+            gender: change.gender,
+            z_capital: change.zCapital,
+            age: change.age,
+            eggs_count: change.eggsCount,
+            food: change.food,
+        }
+    )
+}
+

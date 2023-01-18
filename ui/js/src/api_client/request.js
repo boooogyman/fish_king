@@ -2,7 +2,7 @@ import {Storage} from "../utils/storage";
 import {get_user_jwt} from "./user";
 
 async function makeRequest(url = '', method='GET', data = {}) {
-  url = `http://localhost:5000${url}`
+  url = `http://0.0.0.0:5000${url}`
 
   let jwt = get_user_jwt()
   let params = {

@@ -23,3 +23,11 @@ export async function requestResearch(researchId){
     )
 
 }
+
+
+export async function requestMyResearches(){
+    return makeGetRequest(
+        `/api/v1/researches/my-list/`,
+    )
+
+}

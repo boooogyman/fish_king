@@ -1,10 +1,11 @@
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
+from flask_expects_json import expects_json
 from flask_jwt_extended import jwt_required
 
 from api.models import Taxon
 from api.v1.taxon.schemas import KingdomDataSchema, PhylumDataSchema, ClassNameDataSchema, FamilyDataSchema, \
-    GenusDataSchema, TaxonDataSchema, OrdrDataSchema
-from api.v1.taxon.services import search_taxa
+    GenusDataSchema, TaxonDataSchema, OrdrDataSchema, create_taxon_schema
+from api.v1.taxon.services import search_taxa, create_taxon
 
 
 @jwt_required()
@@ -80,3 +81,10 @@ def search_taxon(term):
 
     return make_response(jsonify(TaxonDataSchema().dump(taxa, many=True)), 200)
 
+
+@jwt_required()
+@expects_json(create_taxon_schema)
+def create_taxon_view():
+    data = request.json
+    sample = create_taxon(data)
+    return make_response(jsonify(TaxonDataSchema().dump(sample, many=False)), 200)

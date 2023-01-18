@@ -1,32 +1,48 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import { useNavigate } from "react-router-dom";
-import { getHomePageInitData } from "../../services/homePage";
+import React, {useContext, useEffect, useState} from 'react';
+import {GlobalContext} from "../../context";
+import {requestMyResearches} from "../../api_client/research";
+import {useNavigate} from "react-router-dom";
+
+
+export const ResearchComponent = ({research}) => {
+    const navigate = useNavigate();
+
+    return (
+        <tr>
+            <td>{research.id}</td>
+            <td>{research.date}</td>
+            <td>{research.place.name}</td>
+            <td>{research.realm.name}</td>
+            <td><p onClick={() => navigate(`/home/edit-research/${research.id}`)}>edit</p></td>
+
+        </tr>
+    );
+}
 
 
 export const MyResearchesComponent = () => {
-    const [initData, setInitData] = useState({})
-    const [loading, setLoading] = useState(false)
-    const navigate = useNavigate();
+    const [researches, setResearches] = useState(false)
+    const {currentUser} = useContext(GlobalContext);
 
     useEffect( () => {
         async function fetchData() {
-            if (loading){return}
-
-            setLoading(true)
-
-            const data = await getHomePageInitData()
-            if (data) {setInitData(data)}
+            const data = await requestMyResearches(currentUser.id)
+            if (data) {setResearches(data)}
         }
 
         fetchData();
-    }, [loading, setLoading]);
+    }, [setResearches]);
 
     return (
         <div>
             <div>My Researches</div>
-            <div>{initData.first_name}</div>
-            <div>{initData.last_name}</div>
-
+                <table>
+                    <tbody>
+                        {researches && researches.map((research, i) => {
+                            return <ResearchComponent key={i} research={research}/>
+                        })}
+                    </tbody>
+                </table>
         </div>
     );
 }

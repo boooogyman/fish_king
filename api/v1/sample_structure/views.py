@@ -7,8 +7,8 @@ from api.v1.sample_structure.services import create_sample, update_sample
 
 @jwt_required()
 def create_sample_view(research_id=None):
-    research = create_sample({"research_id": research_id})
-    return make_response(jsonify(SampleDataSchema().dump(research, many=False)), 200)
+    sample = create_sample({"research_id": research_id})
+    return make_response(jsonify(SampleDataSchema().dump(sample, many=False)), 200)
 
 
 @jwt_required()

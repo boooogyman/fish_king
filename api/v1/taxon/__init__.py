@@ -6,6 +6,10 @@ taxon_urls = Blueprint('/taxon', __name__, url_prefix="/taxon")
 
 
 taxon_urls.add_url_rule(
+    '/', "create taxa", views.create_taxon_view, methods=['POST']
+)
+
+taxon_urls.add_url_rule(
     '/kingdoms/', "get kingdoms", views.get_kingdoms_view, methods=['GET']
 )
 
@@ -37,3 +41,4 @@ taxon_urls.add_url_rule(
 taxon_urls.add_url_rule(
     '/search/<term>/', "search taxa", views.search_taxon, methods=['GET']
 )
+

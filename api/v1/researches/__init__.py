@@ -9,6 +9,11 @@ researches_urls.add_url_rule(
 )
 
 researches_urls.add_url_rule(
+    '/<research_id>/', "get research", views.get_research_view, methods=['GET']
+)
+
+
+researches_urls.add_url_rule(
     '/indicator/', "create indicator", views.create_indicator_view, methods=['POST']
 )
 
@@ -21,13 +26,9 @@ researches_urls.add_url_rule(
 )
 
 researches_urls.add_url_rule(
-    '/my-list/', "get my places", views.get_my_places_view, methods=['GET']
+    '/my-list/', "get my researches", views.get_my_researches_view, methods=['GET']
 )
 
 researches_urls.add_url_rule(
     '/list/', "get places", views.get_places_view, methods=['GET']
-)
-
-researches_urls.add_url_rule(
-    '/<research_id>/', "get research", views.get_research_view, methods=['GET']
 )

@@ -65,8 +65,29 @@
   cursor: pointer;
 }
 
+table {
+  border: 1px solid black;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
 .link{
   color: blue;
   cursor: pointer;
 }
 
+.column {
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

@@ -1,5 +1,5 @@
 from api.db import db
-from api.models import Place, Research, SamplingProtocol, Indicator, SampleStructure, Reference, Taxon
+from api.models import Place, Research, SamplingProtocol, Indicator, SampleStructure, Reference, Taxon, FBA
 from api.v1.common.constants import get_indicator_type_by_id
 
 class Realm:
@@ -55,16 +55,12 @@ def get_researches(limit=100, offset=0):
     return Place.query.limit(limit).offset(offset)
 
 
-def get_research(research_id, owner_id):
-    research = Research.query.filter(
-        Research.id == research_id,
-        Research.owner_id == owner_id
-    ).one()
-
+def update_research_with_related_objects(research):
     research.place = research.place_id and Place.query.get(research.place_id) or {}
-    research.sampling_protocol = research.sampling_protocol_id and SamplingProtocol.query.get(research.sampling_protocol_id) or {}
-    research.indicators = Indicator.query.filter(Indicator.research_id == research_id).all()
-    research.samples = SampleStructure.query.filter(SampleStructure.research_id == research_id).all()
+    research.sampling_protocol = research.sampling_protocol_id and SamplingProtocol.query.get(
+        research.sampling_protocol_id) or {}
+    research.indicators = Indicator.query.filter(Indicator.research_id == research.id).all()
+    research.samples = SampleStructure.query.filter(SampleStructure.research_id == research.id).all()
 
     for sample in research.samples:
         if sample.reference_id:
@@ -73,9 +69,31 @@ def get_research(research_id, owner_id):
         if sample.taxon_id:
             sample.taxon = Taxon.query.get(sample.taxon_id)
 
+        sample.fbas = FBA.query.filter(FBA.sample_id == sample.id).all()
+
     research.realm = realms[research.realm_id]
 
     for indicator in research.indicators:
         indicator.type = get_indicator_type_by_id(indicator.type_id)
 
+
+def get_research(research_id, owner_id):
+    research = Research.query.filter(
+        Research.id == research_id,
+        Research.owner_id == owner_id
+    ).one()
+
+    update_research_with_related_objects(research)
+
     return research
+
+
+def get_my_research(owner_id):
+    researches = list(Research.query.filter(
+        Research.owner_id == owner_id
+    ))
+
+    for research in researches:
+        update_research_with_related_objects(research)
+
+    return researches

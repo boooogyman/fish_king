@@ -19,11 +19,14 @@ import {getIndicatorTypes} from "./utils/confing";
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [config, setConfig] = useState({});
+  const [research, setResearch] = useState({place: {}, samplingProtocol: {}, samples: [], fbas: []});
   const globalState = {
     currentUser,
     setCurrentUser,
     config,
-    setConfig
+    setConfig,
+    research,
+    setResearch
   };
 
   const [loading, setLoading] = useState(false)

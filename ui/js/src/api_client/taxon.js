@@ -1,4 +1,4 @@
-import {makeGetRequest} from "./request";
+import {makeGetRequest, makePostRequest} from "./request";
 
 export async function requestKingdoms(){
     return makeGetRequest(
@@ -47,5 +47,23 @@ export async function requestTaxa(genusId){
 export async function requestTaxaSearch(term){
     return makeGetRequest(
         `/api/v1/taxon/search/${term}/`
+    )
+}
+
+export async function requestSaveTaxon(data){
+    return makePostRequest(
+        `/api/v1/taxon/`,
+        {
+            kingdom: data.kingdom,
+            phylum: data.phylum,
+            class_name: data.className,
+            family: data.family,
+            scientific_name: data.name,
+            scientific_name_ukraine: data.scientificNameUkraine,
+            parent_id: data.parentId,
+            rank: data.rank,
+            col_id: data.colId,
+            researcher_id: data.researcherId,
+        }
     )
 }

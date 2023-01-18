@@ -17,7 +17,7 @@ export const customModalStyles = {
 export const customSmallModalStyles = {
     content: {
         width: '40%',
-        height: '40%',
+        height: '60%',
         top: '40%',
         left: '50%',
         right: 'auto',

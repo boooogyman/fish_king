@@ -8,5 +8,5 @@ fba_urls.add_url_rule(
 )
 
 fba_urls.add_url_rule(
-    '/update/<sample_id>/', "update fba", views.update_fba_view, methods=['PUT']
+    '/update/<fba_id>/', "update fba", views.update_fba_view, methods=['PUT']
 )

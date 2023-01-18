@@ -6,7 +6,7 @@ from api.v1.common.constants import get_indicator_type_by_id
 from api.v1.researches.schemas import create_research_schema, ResearchDataSchema, create_indicator_schema, \
     IndicatorDataSchema
 from api.v1.researches.services import get_research, create_research, get_researches, update_research, create_indicator, \
-    update_indicator
+    update_indicator, get_my_research
 from api.v1.users.services import get_user_by_email
 
 
@@ -74,3 +74,11 @@ def update_indicator_view(indicator_id=None):
     update_indicator(indicator_id, data)
 
     return make_response(jsonify({"status": "ok"}), 200)
+
+
+@jwt_required()
+def get_my_researches_view():
+    user_email = get_jwt_identity()
+    user = get_user_by_email(user_email)
+    research = get_my_research(owner_id=user.id)
+    return make_response(jsonify(ResearchDataSchema().dump(research, many=True)), 200)

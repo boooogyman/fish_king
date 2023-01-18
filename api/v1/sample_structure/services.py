@@ -1,13 +1,18 @@
 from api.db import db
-from api.models import SampleStructure
+from api.models import SampleStructure, FBA
 
 
 def create_sample(data):
-    obj = SampleStructure(**data)
-    db.session.add(obj)
+    sample = SampleStructure(**data)
+    db.session.add(sample)
     db.session.commit()
-    db.session.refresh(obj)
-    return obj
+    db.session.refresh(sample)
+    fba = FBA(**{"sample_id": sample.id})
+    db.session.add(fba)
+    db.session.commit()
+    db.session.refresh(fba)
+    sample.fbas = [fba]
+    return sample
 
 
 def update_sample(sample_id, data):
@@ -15,9 +20,13 @@ def update_sample(sample_id, data):
         "taxon": "taxon_id",
         "reference": "reference_id",
     }
+    noop_names = ["fbas"]
     change = {}
 
     for k, v in data.items():
+        if k in noop_names:
+            continue
+
         if k in change_names:
             if isinstance(v, dict) and v:
                 change[change_names[k]] = v['id']

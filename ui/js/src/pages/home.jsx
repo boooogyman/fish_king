@@ -31,10 +31,17 @@ export const MyHomeComponent = () => {
                     <tr>
                         <td><p onClick={() => navigate("/home/create-research")}>Create Research</p></td>
                         <td><p onClick={() => navigate("/home/create-library-research")}>Create Library Research</p></td>
+                        <td><p onClick={() => navigate("/home/my-researches")}>My researches</p></td>
+                    </tr>
+                    <tr>
+                        <td><p onClick={() => navigate("/home/create-research")}>Create Research</p></td>
+                        <td><p onClick={() => navigate("/home/create-library-research")}>Create Library Research</p></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td><p onClick={() => navigate("/home/analise")}>Analise</p></td>
                         <td><p onClick={() => navigate("/home/analise")}>Import/Export</p></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
